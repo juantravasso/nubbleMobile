@@ -62,7 +62,7 @@ export function TextInput({
     );
 }
 
-const $textInputStyle: TextStyle = {
+export const $textInputStyle: TextStyle = {
     padding: 0, 
     fontFamily: $fontFamily.regular,
     ...$fontSizes.paragraphMedium,
