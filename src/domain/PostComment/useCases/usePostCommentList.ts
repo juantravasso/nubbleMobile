@@ -1,4 +1,4 @@
-import {usePaginatedList} from '@infra';
+import { usePaginatedList } from '@infra';
  
  import { postCommentService } from '../postCommentService';
  
@@ -7,4 +7,4 @@ import {usePaginatedList} from '@infra';
      return postCommentService.getList(postId, page);
    }
    return usePaginatedList(getList);
- }
+}

@@ -30,6 +30,7 @@ import {useAppTheme} from '@hooks';
 import {ThemeColors} from '@theme';
 import { Pressable } from 'react-native';
 import { CheckRoundIcon } from '../../assets/icons/CheckRoundIcon';
+import {ErrorRoundIcon} from '../../assets/icons/ErrorRoundIcon';
 
 
 export interface IconBase {
@@ -69,6 +70,7 @@ const iconRegistry = {
     chatOn: ChatOnIcon,
     check: CheckIcon,
     checkRound:CheckRoundIcon,
+    errorRound: ErrorRoundIcon,
     comment: CommentIcon,
     chevronRight: ChevronRightIcon,
     eyeOn: EyeOnIcon,
