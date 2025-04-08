@@ -1,4 +1,4 @@
-import { usePaginatedList } from '@infra';
+import {QueryKeys, usePaginatedList } from '@infra';
  
  import { postCommentService } from '../postCommentService';
  
@@ -6,5 +6,5 @@ import { usePaginatedList } from '@infra';
    function getList(page: number) {
      return postCommentService.getList(postId, page);
    }
-   return usePaginatedList(getList);
+   return usePaginatedList([QueryKeys.PostCommentList, postId], getList);
 }

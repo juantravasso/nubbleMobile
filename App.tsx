@@ -5,10 +5,13 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import {Toast} from '@components';
 //import {ToastProvider} from '@services';
 import { Router } from "./src/routes/Routes";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
+const queryClient = new QueryClient
 
 function App(): JSX.Element{
   return (
+    <QueryClientProvider client={queryClient}>
     <SafeAreaProvider>
       <ThemeProvider theme={theme}>
       {/* Only use ToastProvider if it is using Context implementation.
@@ -19,6 +22,7 @@ function App(): JSX.Element{
         {/* </ToastProvider> */}
       </ThemeProvider>
     </SafeAreaProvider>
+    </QueryClientProvider>
   );
 }
 
