@@ -1,20 +1,28 @@
 import React from 'react';
 import {BottomTabBarProps} from '@react-navigation/bottom-tabs';
-import {Box, BoxProps, Icon, Text, TextProps, TouchableOpacityBox, TouchableOpacityBoxProps} from '@components';
+import {
+  Box,
+  BoxProps,
+  Icon,
+  Text,
+  TextProps,
+  TouchableOpacityBox,
+  TouchableOpacityBoxProps,
+} from '@components';
 import {AppTabBottomTabParamList} from '@routes';
 import {mapScreenToProps} from './mapScreenToProps';
-import { useAppSafeArea } from '@hooks';
-import { $shadowProps } from '@theme';
+import {useAppSafeArea} from '@hooks';
+import {$shadowProps} from '@theme';
 
 export function AppTabBar({state, descriptors, navigation}: BottomTabBarProps) {
-        const {bottom} = useAppSafeArea()
-    return (
-    <Box 
-        {...$boxWrapper}
-        style={[{paddingBottom:bottom},$shadowProps]}>
+  const {bottom} = useAppSafeArea();
+
+  return (
+    <Box
+      {...$boxWrapper}
+      style={[{paddingBottom: bottom}, $shadowProps]}>
       {state.routes.map((route, index) => {
         const {options} = descriptors[route.key];
-
         const tabItem =
           mapScreenToProps[route.name as keyof AppTabBottomTabParamList];
 
@@ -28,11 +36,10 @@ export function AppTabBar({state, descriptors, navigation}: BottomTabBarProps) {
           });
 
           if (!isFocused && !event.defaultPrevented) {
-            
             navigation.navigate({
-                name: route.name, 
-                params:route.params,
-                merge: true,
+              name: route.name,
+              params: route.params,
+              merge: true,
             });
           }
         };
@@ -46,6 +53,7 @@ export function AppTabBar({state, descriptors, navigation}: BottomTabBarProps) {
 
         return (
           <TouchableOpacityBox
+            key={route.key} // Correção: Adição da propriedade `key`.
             {...$itemWrapper}
             accessibilityState={isFocused ? {selected: true} : {}}
             accessibilityLabel={options.tabBarAccessibilityLabel}
@@ -70,19 +78,19 @@ export function AppTabBar({state, descriptors, navigation}: BottomTabBarProps) {
 }
 
 const $label: TextProps = {
-    semiBold: true,
-    marginTop: 's4',
-    preset: 'paragraphCaption',
+  semiBold: true,
+  marginTop: 's4',
+  preset: 'paragraphCaption',
 };
-    
+
 const $itemWrapper: TouchableOpacityBoxProps = {
-    activeOpacity: 1,
-    alignItems: 'center',
-    accessibilityRole: 'button',
+  activeOpacity: 1,
+  alignItems: 'center',
+  accessibilityRole: 'button',
 };
 
 const $boxWrapper: BoxProps = {
-    paddingTop: 's12',
-    backgroundColor: 'background',
-    flexDirection: 'row',
+  paddingTop: 's12',
+  backgroundColor: 'background',
+  flexDirection: 'row',
 };

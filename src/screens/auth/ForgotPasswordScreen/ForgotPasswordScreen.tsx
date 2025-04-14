@@ -1,14 +1,30 @@
 import React from "react";
+import {useAuthRequestNewPassword} from '@domain';
 import { Screen, Text, Button, FormTextInput } from "@components";
 import { useResetNavigationSuccess } from "@hooks";
 import { ForgotPasswordSchema, forgotPasswordSchema } from "./forgotPasswordSchema";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { AuthScreenProps } from "@routes";
+import {useToastService} from '@services';
+import {AuthScreenProps, AuthStackParamList} from '@routes';
 
 
-export function ForgotPasswordScreen({navigation}:AuthScreenProps<'ForgotPasswordScreen'>){
+const resetParam: AuthStackParamList['SuccessScreen'] = {
+    title: `Enviamos as instruções ${'\n'}para seu e-mail`,
+    description: 'Clique no link enviado no seu e-mail para recuperar sua senha',
+    icon: {
+      name: 'messageRound',
+      color: 'primary',
+    },
+  };
+  
+  export function ForgotPasswordScreen({}: AuthScreenProps<'ForgotPasswordScreen'>) {
     const {reset} = useResetNavigationSuccess();
+    const {showToast} = useToastService();
+    const {requestNewPassword, isLoading} = useAuthRequestNewPassword({
+      onSuccess: () => reset(resetParam),
+      onError: message => showToast({message, type: 'error'}),
+    });
 
     const {control, formState, handleSubmit} = useForm<ForgotPasswordSchema>({
         resolver: zodResolver(forgotPasswordSchema),
@@ -18,17 +34,10 @@ export function ForgotPasswordScreen({navigation}:AuthScreenProps<'ForgotPasswor
         mode: 'onChange'
     })
     
-    function submitForm(formValues:ForgotPasswordSchema){
-        reset({
-            title: `Enviamos as instruções para seu e-mail`,
-            description:
-                'Clique no link enviado no seu e-mail para recuperar sua senha',
-            icon: {
-                name:'messageRound',
-                color: 'primary',
-            },
-        });
+    function submitForm(values:ForgotPasswordSchema){
+        requestNewPassword(values.email);
     }
+
     return (
         <Screen canGoBack>
             <Text preset="headingLarge" mb="s16">Esqueci minha senha</Text>
@@ -43,6 +52,7 @@ export function ForgotPasswordScreen({navigation}:AuthScreenProps<'ForgotPasswor
                 boxProps={{mb: 's20'}} 
                 />
             <Button 
+            loading={isLoading}
             disabled={!formState.isValid}
             onPress={handleSubmit(submitForm)} 
             title="Recuperar senha"/>
