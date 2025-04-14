@@ -1,21 +1,26 @@
 import {z} from 'zod'
+import {stringUtils} from '@utils';
 
-const userNameRegex = /^(?!.*\.\.)(?!.*\.$)[^\W][\w.]{0,29}$/gim;
+const userNameRegex = /^(?!.*\.\.)(?!.*\.$)[^\W][\w.]{5,29}$/gim;
 
 export const signUpSchema = z.object({
-    username: z.string().regex(userNameRegex,'Username inválido').toLowerCase(),
-    fullname: z
+    username: z
+    .string()
+    .min(5, 'username muito curto')
+    .regex(userNameRegex, 'username inválido')
+    .toLowerCase(),
+    firstName: z
         .string()
-        .min(5,'Nome muito curto')
+        .min(3,'Nome muito curto')
         .max(50, 'Nome muito longo')
-        .transform(value=>{
-            return value 
-                .split(' ')
-                .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-                .join(' ');
-        }),
-    email: z.string().email('Email inválido'),
-    password: z.string().min(8, 'Senha deve ter no mínimo 8 caracteres'),
+        .transform(stringUtils.capitalizeFirstLetter),
+    lastName: z
+        .string()
+        .min(5, 'nome muito curto')
+        .max(50, 'nome muito longo')
+        .transform(stringUtils.capitalizeFirstLetter),
+        email: z.string().email('Email inválido'),
+        password: z.string().min(8, 'Senha deve ter no mínimo 8 caracteres'),
 });
 
 export type SignUpSchema = z.infer<typeof signUpSchema>;
