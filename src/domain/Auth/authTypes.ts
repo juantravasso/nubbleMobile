@@ -3,6 +3,8 @@ import {User, UserAPI} from '../User';
  export interface AuthCredentials {
    token: string;
    user: User;
+   tokenExpiresAt: string;
+  refreshToken: string;
  }
  
  export interface FieldIsAvailableAPI {
@@ -15,6 +17,8 @@ import {User, UserAPI} from '../User';
    auth: {
      type: string; //'bearer';
      token: string; // 'NA.GCfDf81QRs0q4VxyFSEvWs8kZ-DoZnl5zKLn8UDY8ntedjZCPgxVxfFijlQy';
+     refreshToken: string;
+    expires_at: string; // '2023-10-01T09:12:59.043+00:00';
    };
    user: UserAPI;
  }
