@@ -20,6 +20,9 @@ import {AuthCredentials} from '../authTypes';
        }
      },
      onSuccess: authCredentials => {
+      if (options?.onSuccess) {
+        options.onSuccess(authCredentials);
+      }
       saveCredentials(authCredentials);
     },
    });
@@ -27,5 +30,7 @@ import {AuthCredentials} from '../authTypes';
    return {
      isLoading: mutation.isLoading,
      signIn: (variables: Variables) => mutation.mutate(variables),
+     isSuccess: mutation.isSuccess,
+     isError: mutation.isError,
    };
  }
