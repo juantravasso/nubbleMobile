@@ -50,7 +50,7 @@ export function Icon({name, color = 'backgroundContrast', size, onPress}:IconPro
     const SVGIcon = iconRegistry[name];
 
     if(onPress){
-        return <Pressable hitSlop={10} onPress={onPress}>
+        return <Pressable testID={name} hitSlop={10} onPress={onPress}>
             <SVGIcon color={colors[color]} size={size}/>
         </Pressable>
     }
