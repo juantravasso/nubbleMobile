@@ -3,7 +3,8 @@ import {FlatList, ListRenderItemInfo} from 'react-native';
 import {Box, Screen} from '@components';
 import {useAppSafeArea} from '@hooks';
 import {AppScreenProps} from '@routes';
-import {PostComment, usePostCommentList, useUser} from '@domain';
+import {PostComment, usePostCommentList} from '@domain';
+import {useAuthCredentials} from '@services';
 import {
   PostCommentBottom,
   PostCommentItem,
@@ -18,7 +19,7 @@ export function PostCommentScreen({
 
   const {list, fetchNextPage, hasNextPage} = usePostCommentList(postId);
 
-    const {id} = useUser();
+    const {userId} = useAuthCredentials();
 
   const {bottom} = useAppSafeArea();
 
@@ -27,7 +28,7 @@ export function PostCommentScreen({
     <PostCommentItem 
     postComment={item} 
     postId={postId}
-    userId={id} 
+    userId={userId} 
     postAuthorId={postAuthorId}
     />
     );

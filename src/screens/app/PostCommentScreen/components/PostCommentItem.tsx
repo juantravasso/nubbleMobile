@@ -6,7 +6,7 @@ import {useToastService} from '@services';
 
 interface Props {
   postComment: PostComment;
-  userId: number;
+  userId: number | null;
   postAuthorId: number;
   postId: number;
 }
@@ -23,7 +23,9 @@ export function PostCommentItem({
     },
   });
 
-  const isAllowToDelete = postCommentService.isAllowToDelete(
+  const isAllowToDelete =
+  userId !== null &&
+  postCommentService.isAllowToDelete(
     postComment,
     userId,
     postAuthorId,
@@ -42,7 +44,10 @@ export function PostCommentItem({
     ]);
   }
   return (
-    <Pressable disabled={!isAllowToDelete} onLongPress={confirmRemove}>
+    <Pressable
+      testID="post-comment-id"
+      disabled={!isAllowToDelete}
+      onLongPress={confirmRemove}>
       <Box flexDirection="row" alignItems="center" mb="s16">
         <ProfileAvatar imageURL={postComment.author.profileURL} />
         <Box ml="s12" flex={1}>

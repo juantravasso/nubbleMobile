@@ -50,6 +50,7 @@ export function Toast() {
 
   return (
     <Animated.View
+    testID={'toast-message'}
     style={{
       position: 'absolute',
       alignSelf: 'center',
